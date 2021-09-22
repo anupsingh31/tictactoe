@@ -4,7 +4,7 @@ import (
 	"errors"
 )
 
-func SizeOfBoardHandling(size int) error {
+func SizeOfBoardHandling(size int64) error {
 	if size >= 3 && size <= 7 {
 		return nil
 	}
@@ -15,7 +15,7 @@ func SlotAlreadyTaken() error {
 	return errors.New("Slot not Avilable")
 }
 
-func WrongNumberInsert(size, limit int) error {
+func WrongNumberInsert(size, limit int64) error {
 	if limit >= 1 && limit <= size*size {
 		return nil
 	} else {

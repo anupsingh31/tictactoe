@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/anupsingh31/tictactoe/board"
 	"github.com/anupsingh31/tictactoe/errorhandling"
@@ -9,10 +10,12 @@ import (
 )
 
 func main() {
-	var size, position, row, column int
+	var size, position, row, column int64
+	var num, targetVal string
 	for true {
 		fmt.Println("Enter the size of Board between 3 to 7")
-		fmt.Scanln(&size)
+		fmt.Scanln(&num)
+		size, _ = strconv.ParseInt(num, 10, 64)
 		err := errorhandling.SizeOfBoardHandling(size)
 		if err == nil {
 			break
@@ -41,7 +44,8 @@ func main() {
 			} else {
 				fmt.Println(player1[1], "enter the position of board between 1 to", size*size)
 			}
-			fmt.Scanln(&position)
+			fmt.Scanln(&targetVal)
+			position, _ = strconv.ParseInt(targetVal, 10, 64)
 			err = errorhandling.WrongNumberInsert(size, position)
 			if err == nil {
 				break
