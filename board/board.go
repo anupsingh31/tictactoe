@@ -1,46 +1,65 @@
 package board
 
 import (
-	"github.com/anupsingh31/tictactoe/errorhandling"
+	"errors"
+
+	"github.com/anupsingh31/tictactoe/cell"
 )
 
-var Size int64
-var Boardgrid = [][]string{}
+type Board struct {
+	cells  []cell.Cell
+	size   int32
+	marked int32
+}
 
-func BoardFrame(size int64) {
-	Size = size
+func NewBoard(size int32) *Board {
+	c := make([]cell.Cell, size*size+1)
+	for i := 0; i < len(c); i++ {
+		c[i] = *cell.NewCell()
+	}
+	return &Board{
+		cells: c,
+		size:  size,
+	}
+}
 
-	for i := 0; i < int(size); i++ {
-		row := []string{}
-		for j := 0; j < int(size); j++ {
-			row = append(row, "_ ")
+func (b *Board) SetMarkCell(cellId int32, mark string) error {
+	if cellId > b.size*b.size || cellId < 1 {
+		return errors.New("index out of bounds")
+	}
+	err := b.cells[cellId-1].SetMark(mark)
+	if err != nil {
+		return err
+	}
+	b.marked++
+	return nil
+}
+
+func (b *Board) GetSizeBoard() int32 {
+	return b.size
+}
+
+func (b *Board) GetPositionMark(cellId int32) string {
+	return b.cells[cellId-1].Getmark()
+}
+
+func (b *Board) String() string {
+	var cellNo int32 = 0
+	str := "    "
+	for i := int32(0); i < b.size; i++ {
+		for j := int32(0); j < b.size; j++ {
+			str += "_____" + b.cells[cellNo].Getmark() + "_____"
+			if j < b.size-1 {
+				str += "|"
+			}
+			cellNo += 1
 		}
-		Boardgrid = append(Boardgrid, row)
+		str += "\n    "
+
 	}
+	return str
 }
 
-func SetGrid(mark string, positionBoard int64) (int64, int64, error) {
-	row := getRow(positionBoard)
-	column := getColumn(positionBoard)
-	if Boardgrid[row][column] == "_ " {
-		Boardgrid[row][column] = mark
-		return row, column, nil
-	} else {
-		err := errorhandling.SlotAlreadyTaken()
-		return 0, 0, err
-	}
-}
-
-func getRow(grid int64) int64 {
-	if grid%Size == 0 {
-		return (grid / Size) - 1
-	}
-	return grid / Size
-}
-
-func getColumn(grid int64) int64 {
-	if grid%Size == 0 {
-		return Size - 1
-	}
-	return (grid % Size) - 1
+func (b *Board) GetPositionFilled() int32 {
+	return b.marked
 }
