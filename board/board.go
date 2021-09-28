@@ -12,10 +12,10 @@ type Board struct {
 	marked int32
 }
 
-func NewBoard(size int32) *Board {
+func New(size int32) *Board {
 	c := make([]cell.Cell, size*size+1)
 	for i := 0; i < len(c); i++ {
-		c[i] = *cell.NewCell()
+		c[i] = *cell.New()
 	}
 	return &Board{
 		cells: c,

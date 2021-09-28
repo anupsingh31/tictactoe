@@ -14,7 +14,7 @@ const (
 
 type ResultAnalyzer struct{}
 
-func NewResultAnalyzer() *ResultAnalyzer {
+func New() *ResultAnalyzer {
 	return &ResultAnalyzer{}
 }
 
@@ -39,12 +39,13 @@ func (ra *ResultAnalyzer) GetBoardStatus(b *board.Board, mark string, cellId int
 
 func checkRows(b *board.Board, mark string, cellId int32) bool {
 	var row int32
-	if cellId%b.GetSizeBoard() == 0 {
-		row = ((cellId/b.GetSizeBoard())-1)*b.GetSizeBoard() + 1
+	size := b.GetSizeBoard()
+	if cellId%size == 0 {
+		row = ((cellId/size)-1)*size + 1
 	} else {
-		row = (cellId/b.GetSizeBoard())*b.GetSizeBoard() + 1
+		row = (cellId/size)*size + 1
 	}
-	for j := 0; j < int(b.GetSizeBoard()); j++ {
+	for j := 0; j < int(size); j++ {
 		if !(b.GetPositionMark(row) == mark) {
 			return false
 		}
@@ -56,16 +57,17 @@ func checkRows(b *board.Board, mark string, cellId int32) bool {
 
 func checkColumns(b *board.Board, mark string, cellId int32) bool {
 	var column int32
-	if cellId%b.GetSizeBoard() == 0 {
-		column = b.GetSizeBoard()
+	size := b.GetSizeBoard()
+	if cellId%size == 0 {
+		column = size
 	} else {
-		column = (cellId % b.GetSizeBoard())
+		column = (cellId % size)
 	}
-	for j := 0; j < int(b.GetSizeBoard()); j++ {
+	for j := 0; j < int(size); j++ {
 		if !(b.GetPositionMark(column) == mark) {
 			return false
 		}
-		column += b.GetSizeBoard()
+		column += size
 	}
 	return true
 

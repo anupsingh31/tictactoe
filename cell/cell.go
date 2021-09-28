@@ -14,7 +14,7 @@ type Cell struct {
 	mark string
 }
 
-func NewCell() *Cell {
+func New() *Cell {
 	return &Cell{mark: Nomark}
 }
 

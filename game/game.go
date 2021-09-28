@@ -9,18 +9,19 @@ import (
 )
 
 type Game struct {
-	b       *board.Board
-	ra      *resultanalyser.ResultAnalyzer
-	players [2]*player.Player
-	turn    int32
+	b                *board.Board
+	ra               *resultanalyser.ResultAnalyzer
+	players          [2]*player.Player
+	turn, limitmoved int32
 }
 
-func NewGame(boardSize int32, players [2]*player.Player) *Game {
+func New(boardSize int32, players [2]*player.Player) *Game {
 	return &Game{
-		b:       board.NewBoard(boardSize),
-		ra:      resultanalyser.NewResultAnalyzer(),
-		players: players,
-		turn:    0,
+		b:          board.New(boardSize),
+		ra:         resultanalyser.New(),
+		players:    players,
+		turn:       0,
+		limitmoved: 0,
 	}
 }
 
@@ -31,9 +32,12 @@ func (g *Game) Play(cellId int32) (resultanalyser.GameStatus, error) {
 		return resultanalyser.GameProgress, err
 	}
 	g.changeTurn()
-	sta, err := g.ra.GetBoardStatus(g.b, currentMark, cellId), nil
-	fmt.Println(sta)
-	return sta, err
+	g.limitmoved += 1
+	if g.limitmoved >= 2*g.b.GetSizeBoard()-1 {
+		status := g.ra.GetBoardStatus(g.b, currentMark, cellId)
+		return status, err
+	}
+	return resultanalyser.GameProgress, err
 }
 
 func (g *Game) changeTurn() {

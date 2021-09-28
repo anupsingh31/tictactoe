@@ -18,3 +18,17 @@ func WrongNumberInsert(size, limit int64) error {
 		return errors.New("You have inserted wrong number")
 	}
 }
+
+func ValidNamePlayer(player1, player2 string) error {
+	if player1 == player2 {
+		return errors.New("Enter valid player2 name")
+	}
+	return nil
+}
+
+func ValidMark(mark string) error {
+	if mark == "X" || mark == "O" {
+		return nil
+	}
+	return errors.New("Enter \"X\" or \"O\" only")
+}

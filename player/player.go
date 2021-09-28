@@ -4,7 +4,7 @@ type Player struct {
 	name, mark string
 }
 
-func NewPlayer(playerName, pMark string) *Player {
+func New(playerName, pMark string) *Player {
 	return &Player{
 		name: playerName,
 		mark: pMark,
