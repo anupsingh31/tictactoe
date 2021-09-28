@@ -12,10 +12,10 @@ type Game struct {
 	b                *board.Board
 	ra               *resultanalyser.ResultAnalyzer
 	players          [2]*player.Player
-	turn, limitmoved int32
+	turn, limitmoved uint8
 }
 
-func New(boardSize int32, players [2]*player.Player) *Game {
+func New(boardSize uint8, players [2]*player.Player) *Game {
 	return &Game{
 		b:          board.New(boardSize),
 		ra:         resultanalyser.New(),
@@ -25,7 +25,7 @@ func New(boardSize int32, players [2]*player.Player) *Game {
 	}
 }
 
-func (g *Game) Play(cellId int32) (resultanalyser.GameStatus, error) {
+func (g *Game) Play(cellId uint8) (resultanalyser.GameStatus, error) {
 	currentMark := g.players[g.turn].GetPlayerMark()
 	err := g.b.SetMarkCell(cellId, currentMark)
 	if err != nil {
@@ -41,7 +41,7 @@ func (g *Game) Play(cellId int32) (resultanalyser.GameStatus, error) {
 }
 
 func (g *Game) changeTurn() {
-	g.turn = (g.turn + 1) % int32(len(g.players))
+	g.turn = (g.turn + 1) % uint8(len(g.players))
 }
 
 func (g *Game) CurrentUser() *player.Player {

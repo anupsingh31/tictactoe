@@ -4,14 +4,14 @@ import (
 	"errors"
 )
 
-func SizeOfBoardHandling(size int64) error {
+func SizeOfBoardHandling(size uint64) error {
 	if size >= 3 && size <= 7 {
 		return nil
 	}
 	return errors.New("Out of Range Size board")
 }
 
-func WrongNumberInsert(size, limit int64) error {
+func WrongNumberInsert(size, limit uint64) error {
 	if limit >= 1 && limit <= size*size {
 		return nil
 	} else {
@@ -19,16 +19,23 @@ func WrongNumberInsert(size, limit int64) error {
 	}
 }
 
-func ValidNamePlayer(player1, player2 string) error {
+func ValidNamePlayerMark(player1, player2 string) error {
 	if player1 == player2 {
-		return errors.New("Enter valid player2 name")
+		return errors.New("You have inserted player1 data.\nEnter again...")
 	}
 	return nil
 }
 
 func ValidMark(mark string) error {
-	if mark == "X" || mark == "O" {
+	if (mark >= "a" && mark <= "z" && len(mark) == 1) || (mark >= "A" && mark <= "Z" && len(mark) == 1) {
 		return nil
 	}
-	return errors.New("Enter \"X\" or \"O\" only")
+	return errors.New("Please, Enter single Alphabet only")
+}
+
+func NotNullName(name string) error {
+	if len(name) != 0 {
+		return nil
+	}
+	return errors.New("Please, Enter you name. Space not supported")
 }

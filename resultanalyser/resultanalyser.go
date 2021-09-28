@@ -18,7 +18,7 @@ func New() *ResultAnalyzer {
 	return &ResultAnalyzer{}
 }
 
-func (ra *ResultAnalyzer) GetBoardStatus(b *board.Board, mark string, cellId int32) GameStatus {
+func (ra *ResultAnalyzer) GetBoardStatus(b *board.Board, mark string, cellId uint8) GameStatus {
 	if checkRows(b, mark, cellId) {
 		return GameWin
 	}
@@ -37,8 +37,8 @@ func (ra *ResultAnalyzer) GetBoardStatus(b *board.Board, mark string, cellId int
 	return GameProgress
 }
 
-func checkRows(b *board.Board, mark string, cellId int32) bool {
-	var row int32
+func checkRows(b *board.Board, mark string, cellId uint8) bool {
+	var row uint8
 	size := b.GetSizeBoard()
 	if cellId%size == 0 {
 		row = ((cellId/size)-1)*size + 1
@@ -55,8 +55,8 @@ func checkRows(b *board.Board, mark string, cellId int32) bool {
 
 }
 
-func checkColumns(b *board.Board, mark string, cellId int32) bool {
-	var column int32
+func checkColumns(b *board.Board, mark string, cellId uint8) bool {
+	var column uint8
 	size := b.GetSizeBoard()
 	if cellId%size == 0 {
 		column = size
@@ -74,7 +74,7 @@ func checkColumns(b *board.Board, mark string, cellId int32) bool {
 }
 
 func checkDiagonal(b *board.Board, mark string) bool {
-	var k, itr int32 = 1, 1
+	var k, itr uint8 = 1, 1
 	for itr <= b.GetSizeBoard() {
 		if !(b.GetPositionMark(k) == mark) {
 			return false
@@ -87,7 +87,7 @@ func checkDiagonal(b *board.Board, mark string) bool {
 }
 
 func checkReverseDiagonal(b *board.Board, mark string) bool {
-	var itr, j int32 = 1, b.GetSizeBoard()
+	var itr, j uint8 = 1, b.GetSizeBoard()
 	for itr <= b.GetSizeBoard() {
 		if !(b.GetPositionMark(j) == mark) {
 			return false
